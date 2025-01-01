@@ -9,16 +9,31 @@ import { useSearchParams } from "react-router-dom";
 import ShowMore from "../components/ShowMore";
 import { fuels, years } from "../costants";
 
-const MainPage = () => {
-  const [params] = useSearchParams()
-  const [cars, setCars] = useState<CarType[] | null>(null);
+const MainPage: React.FC = () => {
+  const [params, setParams] = useSearchParams();
+  const [cars, setCars] = useState<CarType[]>([]); // Arabaları tutan state
   const [isError, setIsError] = useState<boolean>(false);
+
   useEffect(() => {
-    const paramsObj =Object.fromEntries(params.entries())
+    const paramsObj = Object.fromEntries(params.entries());
+
     fetchCars(paramsObj)
-      .then((data) => setCars(data))
+      .then((data: CarType[]) => {
+        const limit = Number(params.get("limit")) || 5;
+
+        // Gelen arabaları mevcut listeye ekle
+        setCars((prevCars) => {
+          // Eğer limit önceki limitten küçükse (filtreleme durumu)
+          if (prevCars.length >= limit) {
+            return [...data]; // Listeyi tamamen yenile
+          }
+
+          // Aksi takdirde yeni arabaları ekle
+          return [...prevCars, ...data];
+        });
+      })
       .catch(() => setIsError(true));
-  }, [params]);
+  }, [params]); // Sadece params değiştiğinde tetiklenir
 
   return (
     <div>
@@ -32,34 +47,32 @@ const MainPage = () => {
         <div className="home__filters">
           <SearchBar />
           <div className="home__filter-container">
-            <CustomFilter title='Üretim Yılı' options={years} />
-            <CustomFilter title='Yakıt Tipi' options={fuels} />
+            <CustomFilter title="Üretim Yılı" options={years} />
+            <CustomFilter title="Yakıt Tipi" options={fuels} />
           </div>
         </div>
         {/* Araba Listeleme Alanı */}
 
-        {/* Yüklenme durumu */}
-        {!cars ? (
+        {!cars.length ? (
           <div className="home__error-container">
             <h2>Yükleniyor...</h2>
           </div>
         ) : isError ? (
-          // Hata olduğu senaryo
           <div className="home__error-container">
-            <h2>Üzgünüz verileri alırken bir hata oluştu.</h2>
+            <h2>Üzgünüz, verileri alırken bir hata oluştu.</h2>
           </div>
         ) : cars.length < 1 ? (
-          // Kriterlere uygun sonuç olmadığı senaryo
           <div className="home__error-container">
-            <h2>Üzgünüz aradığınız kriterlere uygun araba bulunamadı.</h2>
+            <h2>Üzgünüz, aradığınız kriterlere uygun araba bulunamadı.</h2>
           </div>
         ) : (
-          // Araba sonuçları gelirse
           <section>
             <div className="home__cars-wrapper">
-              {cars.map((car,i) => <Card key={i} car={car}/>)}
+              {cars.map((car, i) => (
+                <Card key={i} car={car} />
+              ))}
             </div>
-            <ShowMore/>
+            <ShowMore />
           </section>
         )}
       </div>

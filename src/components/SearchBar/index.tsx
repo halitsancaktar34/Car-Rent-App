@@ -46,7 +46,7 @@ const SearchBar = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="searchbar gap-3">
+<form onSubmit={handleSubmit} className="searchbar gap-3" data-testid="search-form">
       <div className="searchbar__item">
         <ReactSelect
           options={options}

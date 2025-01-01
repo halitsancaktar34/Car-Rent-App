@@ -1,12 +1,12 @@
 import { useSearchParams } from "react-router-dom";
 import CustomButton from "../CustomButton";
 
-const ShowMore = () => {
+const ShowMore: React.FC = () => {
   const [params, setParams] = useSearchParams();
 
   const limit = Number(params.get("limit")) || 5;
 
-  const handleLimit = () => {
+  const handleLimit = (): void => {
     const newLimit = String(limit + 5);
 
     // Param değişkenini güncelle
@@ -14,6 +14,7 @@ const ShowMore = () => {
     // URL'i güncelle
     setParams(params);
   };
+
   return (
     <div className="w-full flex-center gap-5 my-10">
       {limit < 30 && (

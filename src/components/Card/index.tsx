@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { CarType } from '../../types';
-import CustomButton from '../CustomButton';
-import DetailModal from './DetailModal';
-import { generateImage } from '../../utils/generataImage';
+import { useState } from "react";
+import { CarType } from "../../types";
+import CustomButton from "../CustomButton";
+import DetailModal from "./DetailModal";
+import { generateImage } from "../../utils/generataImage";
 import { motion } from "framer-motion";
 
 interface ICardProps {
@@ -35,26 +35,34 @@ const Card = ({ car }: ICardProps) => {
         <img
           src={generateImage(car)}
           className="w-full h-full object-contain"
+          alt={`${car.make} ${car.model} image`}
+          data-testid="car-image"
         />
       </div>
 
       {/* alt alan */}
       <div className="relative flex w-full mt-2">
         {/* ikonlar */}
-        <div className="group-hover:invisible flex w-full justify-between text-gray">
+        <div className="group-hover:invisible flex w-full justify-between text-gray mx-3">
           <div className="flex flex-col justify-center items-center gap-2">
-            <img width={25} src="/steering-wheel.svg" />
+            <img
+              width={25}
+              src="/steering-wheel.svg"
+              alt="Steering wheel icon"
+            />
             <p className="text-[14px]">
-              {car.transmission === 'a' ? 'Otomatik' : 'Manuel'}
+              {car.transmission === "a" ? "Otomatik" : "Manuel"}
             </p>
           </div>
           <div className="flex flex-col justify-center items-center gap-2">
-            <img width={25} src="/tire.svg" />
+            <img width={25} src="/tire.svg" alt="Tire icon" />
             <p className="text-[14px]">{car.drive}</p>
           </div>
           <div className="flex flex-col justify-center items-center gap-2">
-            <img width={25} src="/gas.svg" />
-            <p className="text-[14px]">{car.fuel_type}</p>
+            <img width={25} src="/gas.svg" alt="Gas icon" />
+            <p className="text-[14px]" data-testid="fuel-type">
+              {car.fuel_type}
+            </p>
           </div>
         </div>
         {/* buton */}

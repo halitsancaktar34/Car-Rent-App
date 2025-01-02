@@ -11,7 +11,7 @@ import { fuels, years } from "../costants";
 
 const MainPage: React.FC = () => {
   const [params, setParams] = useSearchParams();
-  const [cars, setCars] = useState<CarType[]>([]); // Arabaları tutan state
+  const [cars, setCars] = useState<CarType[]>([]);
   const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
@@ -23,17 +23,14 @@ const MainPage: React.FC = () => {
 
         // Gelen arabaları mevcut listeye ekle
         setCars((prevCars) => {
-          // Eğer limit önceki limitten küçükse (filtreleme durumu)
           if (prevCars.length >= limit) {
-            return [...data]; // Listeyi tamamen yenile
+            return [...data]; 
           }
-
-          // Aksi takdirde yeni arabaları ekle
           return [...prevCars, ...data];
         });
       })
       .catch(() => setIsError(true));
-  }, [params]); // Sadece params değiştiğinde tetiklenir
+  }, [params]);
 
   return (
     <div>

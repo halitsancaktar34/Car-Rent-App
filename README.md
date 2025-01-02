@@ -12,6 +12,7 @@
   <li>Pagination implemented with React Router DOM for seamless navigation.</li> 
   <li>Component testing ensures reliability and functionality of core features.</li> 
   <li>Responsive design, ensuring compatibility with various devices and screen sizes.</li>
+  <li>Animations created using Framer Motion for enhanced user experience and interactivity.</li>
   <li>Advanced search functionality allowing users to filter cars by model, brand, year, and other criteria.</li> 
   <li>Detailed car information, including features and rental pricing.</li> 
 
